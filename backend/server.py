@@ -490,17 +490,30 @@ async def ingest_data(
                 
                 df = pd.read_excel(tmp.name)
                 
+                # Column mapping for loan data
+                loan_column_map = {
+                    'loan_id': ['loan_id', 'Loan ID', 'loan id'],
+                    'customer_id': ['customer_id', 'Customer ID', 'customer id'],
+                    'loan_amount': ['loan_amount', 'Loan Amount', 'loan amount'],
+                    'tenure': ['tenure', 'Tenure'],
+                    'interest_rate': ['interest_rate', 'Interest Rate', 'interest rate'],
+                    'monthly_repayment': ['monthly_repayment', 'Monthly payment', 'monthly payment', 'Monthly Payment', 'EMI'],
+                    'emis_paid_on_time': ['emis_paid_on_time', 'EMIs paid on Time', 'emis paid on time'],
+                    'start_date': ['start_date', 'Date of Approval', 'start date', 'approval date'],
+                    'end_date': ['end_date', 'End Date', 'end date']
+                }
+                
                 for _, row in df.iterrows():
                     loan_doc = {
-                        "loan_id": row.get('loan_id', str(uuid.uuid4())),
-                        "customer_id": row['customer_id'],
-                        "loan_amount": float(row['loan_amount']),
-                        "tenure": int(row['tenure']),
-                        "interest_rate": float(row['interest_rate']),
-                        "monthly_repayment": float(row['monthly_repayment']),
-                        "emis_paid_on_time": int(row.get('emis_paid_on_time', 0)),
-                        "start_date": pd.to_datetime(row['start_date']).to_pydatetime() if 'start_date' in row else datetime.utcnow(),
-                        "end_date": pd.to_datetime(row['end_date']).to_pydatetime() if 'end_date' in row else datetime.utcnow(),
+                        "loan_id": str(row.get(find_column(df.columns, loan_column_map['loan_id']) or 'loan_id', str(uuid.uuid4()))),
+                        "customer_id": str(row[find_column(df.columns, loan_column_map['customer_id'])]),
+                        "loan_amount": float(row[find_column(df.columns, loan_column_map['loan_amount'])]),
+                        "tenure": int(row[find_column(df.columns, loan_column_map['tenure'])]),
+                        "interest_rate": float(row[find_column(df.columns, loan_column_map['interest_rate'])]),
+                        "monthly_repayment": float(row[find_column(df.columns, loan_column_map['monthly_repayment'])]),
+                        "emis_paid_on_time": int(row.get(find_column(df.columns, loan_column_map['emis_paid_on_time']) or 'emis_paid_on_time', 0)),
+                        "start_date": pd.to_datetime(row[find_column(df.columns, loan_column_map['start_date'])]).to_pydatetime() if find_column(df.columns, loan_column_map['start_date']) in row and pd.notna(row[find_column(df.columns, loan_column_map['start_date'])]) else datetime.utcnow(),
+                        "end_date": pd.to_datetime(row[find_column(df.columns, loan_column_map['end_date'])]).to_pydatetime() if find_column(df.columns, loan_column_map['end_date']) in row and pd.notna(row[find_column(df.columns, loan_column_map['end_date'])]) else datetime.utcnow(),
                         "status": row.get('status', 'active'),
                         "created_at": datetime.utcnow()
                     }
