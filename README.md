@@ -64,7 +64,7 @@ docker_usage:
   - Clone the repository
   - Place Excel files in /data folder
   - Run docker-compose up --build
-  - Access the API at http://localhost:8000/api/
+  - Access the API at https://fix-issues-3.preview.emergentagent.com/
 
 celery:
   usage: Celery runs with Redis as configured in docker-compose.
@@ -73,6 +73,6 @@ celery:
 author:
   name: Maddisetty Bhagyasri
   email: maddisettybhagyasri@gmail.com
-  github: https://github.com/your-username
+  github: https://github.com/bhagyasrimadddisetty-lgtm/
 
 license: MIT License
