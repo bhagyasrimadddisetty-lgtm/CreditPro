@@ -1,0 +1,28 @@
+/* Hide Emergent watermark completely */
+* {
+  /* Remove any watermark elements */
+}
+
+div[style*="Made with Emergent"],
+*[title*="Made with Emergent"],
+*:contains("Made with Emergent"),
+div[style*="position: fixed"][style*="bottom: 10px"][style*="right: 10px"],
+div[style*="z-index: 999999"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Hide bottom right watermarks */
+body > div:last-child {
+  display: none !important;
+}
+
+/* Override any watermark styling */
+.emergent-watermark,
+#emergent-watermark,
+[class*="emergent"],
+[id*="emergent"] {
+  display: none !important;
+}
