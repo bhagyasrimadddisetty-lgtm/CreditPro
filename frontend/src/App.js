@@ -339,9 +339,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/customers/register" element={<RegisterCustomer />} />
-            <Route path="/customers/profile/:customerId" element={<div className="p-6">Customer Profile - Coming Soon</div>} />
-            <Route path="/loans/apply" element={<div className="p-6">Loan Application - Coming Soon</div>} />
-            <Route path="/data-upload" element={<div className="p-6">Data Upload - Coming Soon</div>} />
+            <Route path="/customers/profile/:customerId" element={<CustomerProfile />} />
+            <Route path="/loans/apply" element={<LoanApplication />} />
+            <Route path="/data-upload" element={<DataUpload />} />
           </Routes>
         </div>
       </BrowserRouter>
