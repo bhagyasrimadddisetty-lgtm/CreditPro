@@ -38,12 +38,37 @@
   }
 }
 
-/* Hide "Made with Emergent" watermark */
-[class*="emergent"], [id*="emergent"], div[style*="Made with Emergent"] {
+/* Hide "Made with Emergent" watermark completely */
+[class*="emergent"], [id*="emergent"], div[style*="Made with Emergent"], 
+*:contains("Made with Emergent"), *[title*="emergent"], 
+div[style*="position: fixed"][style*="bottom: 10px"][style*="right: 10px"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  z-index: -9999 !important;
+}
+
+/* Hide bottom right fixed position elements */
+div[style*="position:fixed"][style*="bottom:10px"][style*="right:10px"],
+div[style*="position: fixed"][style*="bottom: 10px"][style*="right: 10px"] {
   display: none !important;
 }
 
-/* Custom scrollbar */
+/* Hide any watermark-like elements */
+*[style*="z-index: 999999"],
+*[style*="position: fixed"][style*="bottom"],
+*[style*="Made with"] {
+  display: none !important;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
 ::-webkit-scrollbar {
   width: 6px;
 }
