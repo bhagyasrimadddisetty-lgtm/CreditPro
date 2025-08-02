@@ -141,11 +141,14 @@ backend:
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: true
           agent: "main"
           comment: "POST /api/check-eligibility endpoint with credit scoring and business logic"
+        - working: true
+          agent: "testing"
+          comment: "✅ VERIFIED: Loan eligibility logic working correctly. Credit score calculation (300-850 range), interest rate determination (750+:8%, 650+:10%, 550+:12%, <550:15%), EMI calculation, and business rules (credit score >=500, EMI <=50% salary, debt within limit) all functioning properly."
 
   - task: "Loan creation API"
     implemented: true
