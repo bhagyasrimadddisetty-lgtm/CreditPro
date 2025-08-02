@@ -309,7 +309,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Backend API endpoints testing"
+    - "Backend API endpoints testing" 
     - "Frontend workflow testing"
     - "End-to-end loan application process"
     - "Data upload functionality"
