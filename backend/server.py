@@ -441,15 +441,32 @@ async def ingest_data(
                 
                 df = pd.read_excel(tmp.name)
                 
+                # Column mapping for flexibility
+                column_map = {
+                    'customer_id': ['customer_id', 'Customer ID', 'customer id'],
+                    'first_name': ['first_name', 'First Name', 'first name'],
+                    'last_name': ['last_name', 'Last Name', 'last name'],
+                    'phone_number': ['phone_number', 'Phone Number', 'phone number', 'Phone'],
+                    'monthly_salary': ['monthly_salary', 'Monthly Salary', 'monthly salary', 'Salary'],
+                    'approved_limit': ['approved_limit', 'Approved Limit', 'approved limit'],
+                    'current_debt': ['current_debt', 'Current Debt', 'current debt']
+                }
+                
+                def find_column(df_columns, field_variations):
+                    for variation in field_variations:
+                        if variation in df_columns:
+                            return variation
+                    return None
+                
                 for _, row in df.iterrows():
                     customer_doc = {
-                        "customer_id": row.get('customer_id', str(uuid.uuid4())),
-                        "first_name": row['first_name'],
-                        "last_name": row['last_name'],
-                        "phone_number": row.get('phone_number'),
-                        "monthly_salary": float(row['monthly_salary']),
-                        "approved_limit": float(row['approved_limit']),
-                        "current_debt": float(row.get('current_debt', 0)),
+                        "customer_id": str(row.get(find_column(df.columns, column_map['customer_id']) or 'customer_id', str(uuid.uuid4()))),
+                        "first_name": row[find_column(df.columns, column_map['first_name'])],
+                        "last_name": row[find_column(df.columns, column_map['last_name'])],
+                        "phone_number": row.get(find_column(df.columns, column_map['phone_number'])),
+                        "monthly_salary": float(row[find_column(df.columns, column_map['monthly_salary'])]),
+                        "approved_limit": float(row[find_column(df.columns, column_map['approved_limit'])]),
+                        "current_debt": float(row.get(find_column(df.columns, column_map['current_debt']) or 'current_debt', 0)),
                         "created_at": datetime.utcnow()
                     }
                     
