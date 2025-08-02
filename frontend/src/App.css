@@ -38,6 +38,11 @@
   }
 }
 
+/* Hide "Made with Emergent" watermark */
+[class*="emergent"], [id*="emergent"], div[style*="Made with Emergent"] {
+  display: none !important;
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
